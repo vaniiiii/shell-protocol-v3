@@ -58,7 +58,7 @@ contract CamelotV2Adapter is OceanAdapter {
      * @param tokenId Ocean ID of token to wrap
      * @param amount wrap amount
      */
-    function wrapToken(uint256 tokenId, uint256 amount, bytes32 metadata) internal override {
+    function wrapToken(uint256 tokenId, uint256 amount, bytes32) internal override {
         address tokenAddress = underlying[tokenId];
 
         Interaction memory interaction = Interaction({ interactionTypeAndAddress: _fetchInteractionId(tokenAddress, uint256(InteractionType.WrapErc20)), inputToken: 0, outputToken: 0, specifiedAmount: amount, metadata: bytes32(0) });
@@ -71,7 +71,7 @@ contract CamelotV2Adapter is OceanAdapter {
      * @param tokenId Ocean ID of token to unwrap
      * @param amount unwrap amount
      */
-    function unwrapToken(uint256 tokenId, uint256 amount, bytes32 metadata) internal override returns (uint256 unwrappedAmount) {
+    function unwrapToken(uint256 tokenId, uint256 amount, bytes32) internal override returns (uint256 unwrappedAmount) {
         address tokenAddress = underlying[tokenId];
 
         Interaction memory interaction = Interaction({ interactionTypeAndAddress: _fetchInteractionId(tokenAddress, uint256(InteractionType.UnwrapErc20)), inputToken: 0, outputToken: 0, specifiedAmount: amount, metadata: bytes32(0) });
@@ -99,7 +99,6 @@ contract CamelotV2Adapter is OceanAdapter {
         (uint256 rawInputAmount,) = _convertDecimals(NORMALIZED_DECIMALS, decimals[inputToken], inputAmount);
 
         _determineComputeType(inputToken, outputToken);
-        uint256 rawOutputAmount;
 
         // Try swapping
         address[] memory path = new address[](2);
