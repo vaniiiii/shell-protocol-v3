@@ -8,7 +8,10 @@ import "./OceanAdapter.sol";
 import "../interfaces/IUniswapV2Router.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 
-enum ComputeType { Swap }
+enum ComputeType {
+    Swap
+}
+/// @title CamelotV2Adapter
 
 contract CamelotV2Adapter is OceanAdapter {
     /////////////////////////////////////////////////////////////////////
