@@ -8,12 +8,12 @@ import "../../adapters/CamelotV2Adapter.sol";
 
 contract TestCamelotV2Adapter is Test {
     Ocean ocean;
-    address wallet = 0x5a52E96BAcdaBb82fd05763E25335261B270Efcb;
+    address wallet = 0x5a52E96BAcdaBb82fd05763E25335261B270Efcb; // magic whale address on Arbitrum
     address secondaryTokenWallet = 0x183D0567c33e7591c22540E45D2F74730b42a0ca;
     CamelotV2Adapter adapter;
-    IUniswapV2Router router = IUniswapV2Router(0xc873fEcbd354f5A56E00E710B90EF4201db2448d);
-    address magic = 0x539bdE0d7Dbd336b79148AA742883198BBF60342;
-    address weth = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
+    IUniswapV2Router router = IUniswapV2Router(0xc873fEcbd354f5A56E00E710B90EF4201db2448d); // camelot router address on Arbitrum
+    address magic = 0x539bdE0d7Dbd336b79148AA742883198BBF60342; // magic token address on Arbitrum
+    address weth = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1; // weth token address on Arbitrum
 
     function setUp() public {
         vm.createSelectFork("https://arb1.arbitrum.io/rpc"); // Will start on latest block by default
@@ -21,6 +21,10 @@ contract TestCamelotV2Adapter is Test {
         adapter = new CamelotV2Adapter(address(ocean), 0xE8b2C9cBfd52CF9A157724e6416440566fA03150, router); // magic/weth pair address on camelot
     }
 
+    /// @notice Test the swap function
+    /// @param toggle if true, swap magic to weth, else weth to magic
+    /// @param amount amount to swap
+    /// @param unwrapFee fee on unwrap
     function testSwap(bool toggle, uint256 amount, uint256 unwrapFee) public {
         unwrapFee = bound(unwrapFee, 2000, type(uint256).max);
         ocean.changeUnwrapFee(unwrapFee);
